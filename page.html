@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Mate</title>
+    <link rel="stylesheet" href="page.css">
+    <script src="script.js"></script>
+    
+</head>
+<body>
+    <a href="login.html">Login</a>
+<a href="signup.html">signup</a>
+
+
+
+   <h1>Focus Mate!</h1>
+<h2>Efficiently Manage Your Time </h2>
+<h3>Schedule Smart,Become Organised</h3>
+    <h3>LET'S ACHIEVE IT TOGETHER!</h3> 
+    
+
+   <!-- Form for inputting activity times -->
+   <form id="activityForm">
+       <label for="activity1">Activity 1:</label>
+       <input type="number" id="activity1" name="activity1" placeholder="Total time for activity 1 (in minutes)" required><br>
+       <label for="activity2">Activity 2:</label>
+       <input type="number" id="activity2" name="activity2" placeholder="Total time for activity 2 (in minutes)" required><br>
+       <label for="activity1">Activity 1:</label>
+       <input type="number" id="activity1" name="activity1" placeholder="Total time for activity 1 (in minutes)" required><br>
+       <label for="activity2">Activity 2:</label>
+       <input type="number" id="activity2" name="activity2" placeholder="Total time for activity 2 (in minutes)" required><br>
+       <!-- Repeat similar labels and inputs for activities 3-6 -->
+       <button type="submit">Generate Timetable</button>
+   </form>
+
+   <!-- Placeholder for the timetable -->
+   <div id="timetable"></div>
+
+   <script>
+       document.getElementById("activityForm").addEventListener("submit", function(event) {
+           event.preventDefault(); // Prevent form submission
+           
+           // Get the values of activity times
+           var activityTimes = [];
+           for (var i = 1; i <= 6; i++) {
+               var activityInput = document.getElementById("activity" + i).value;
+               if (activityInput !== "") {
+                   activityTimes.push(parseInt(activityInput));
+               }
+           }
+           
+           // Sort the activity times in descending order
+           activityTimes.sort(function(a, b) {
+               return b - a;
+           });
+           
+           // Generate timetable HTML
+           var timetableHTML = "<h3>Your Timetable:</h3><ul>";
+           var totalMinutesInADay = 24 * 60;
+           var totalUsedMinutes = 0;
+           for (var j = 0; j < activityTimes.length; j++) {
+               var activityDuration = Math.min(activityTimes[j], totalMinutesInADay - totalUsedMinutes);
+               var hours = Math.floor(activityDuration / 60);
+               var minutes = activityDuration % 60;
+               timetableHTML += "<li>Activity " + (j + 1) + ": " + hours + " hours " + minutes + " minutes</li>";
+               totalUsedMinutes += activityDuration;
+           }
+           timetableHTML += "</ul>";
+           
+           document.getElementById("timetable").innerHTML = timetableHTML;
+       });
+   </script>
+</body>
+</html>
+
+
