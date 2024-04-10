@@ -14,63 +14,40 @@
 
 
 
+
    <h1>Focus Mate!</h1>
 <h2>Efficiently Manage Your Time </h2>
 <h3>Schedule Smart,Become Organised</h3>
-    <h3>LET'S ACHIEVE IT TOGETHER!</h3> 
+    <h4>LET'S ACHIEVE IT TOGETHER!</h4> 
     
-
-   <!-- Form for inputting activity times -->
-   <form id="activityForm">
-       <label for="activity1">Activity 1:</label>
-       <input type="number" id="activity1" name="activity1" placeholder="Total time for activity 1 (in minutes)" required><br>
-       <label for="activity2">Activity 2:</label>
-       <input type="number" id="activity2" name="activity2" placeholder="Total time for activity 2 (in minutes)" required><br>
-       <label for="activity1">Activity 1:</label>
-       <input type="number" id="activity1" name="activity1" placeholder="Total time for activity 1 (in minutes)" required><br>
-       <label for="activity2">Activity 2:</label>
-       <input type="number" id="activity2" name="activity2" placeholder="Total time for activity 2 (in minutes)" required><br>
-     
-       <button type="submit">Generate Timetable</button>
-   </form>
-
-   <!-- Placeholder for the timetable -->
-   <div id="timetable"></div>
-
-   <script>
-       document.getElementById("activityForm").addEventListener("submit", function(event) {
-           event.preventDefault(); // Prevent form submission
-           
-           // Get the values of activity times
-           var activityTimes = [];
-           for (var i = 1; i <= 6; i++) {
-               var activityInput = document.getElementById("activity" + i).value;
-               if (activityInput !== "") {
-                   activityTimes.push(parseInt(activityInput));
-               }
-           }
-           
-           // Sort the activity times in descending order
-           activityTimes.sort(function(a, b) {
-               return b - a;
-           });
-           
-           // Generate timetable HTML
-           var timetableHTML = "<h3>Your Timetable:</h3><ul>";
-           var totalMinutesInADay = 24 * 60;
-           var totalUsedMinutes = 0;
-           for (var j = 0; j < activityTimes.length; j++) {
-               var activityDuration = Math.min(activityTimes[j], totalMinutesInADay - totalUsedMinutes);
-               var hours = Math.floor(activityDuration / 60);
-               var minutes = activityDuration % 60;
-               timetableHTML += "<li>Activity " + (j + 1) + ": " + hours + " hours " + minutes + " minutes</li>";
-               totalUsedMinutes += activityDuration;
-           }
-           timetableHTML += "</ul>";
-           
-           document.getElementById("timetable").innerHTML = timetableHTML;
-       });
-   </script>
+    <!-- boxes -->
+    <div class="box1">
+        <h>Plan Your Schedule</h>
+        <p>Planning your schedule ensures efficiency,
+      productivity, and peace of mind, 
+     helping you achieve your goals effectively.</p>
+        <button class="open-button" onclick="openNewPage('login.html')">Open</button>
+      </div>
+      
+      <div class="box2">
+        <h>Track My Progress</h>
+       
+        <p>Don't forget to reward yourself if you're doing great and don't worry if things aren't going your way; we are here for you!</p>
+        <button class="open-button" onclick="openNewPage('https://example.com/page2')">Open</button>
+      </div>
+      <div class="box3">
+        <h>Make Notes For Self</h>
+        <p>Do you also forget important things?Don't worry add them to notes and see whenever you need.No left work!</p>
+        <button class="open-button" onclick="openNewPage('login.html')">Open</button>
+      </div>
+      <script>
+        function openNewPage(url) {
+          window.open(url, '_blank');
+        }
+      </script>
+      
+ 
+   
 </body>
 </html>
 
