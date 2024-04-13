@@ -1,54 +1,231 @@
-<form id="activityForm">
-    <label for="activity1">Activity 1:</label>
-    <input type="number" id="activity1" name="activity1" placeholder="Total time for activity 1 (in minutes)" required><br>
-    <label for="activity2">Activity 2:</label>
-    <input type="number" id="activity2" name="activity2" placeholder="Total time for activity 2 (in minutes)" required><br>
-    <label for="activity3">Activity 3:</label>
-    <input type="number" id="activity3" name="activity3" placeholder="Total time for activity 3 (in minutes)" required><br>
-    <label for="activity4">Activity 4:</label>
-    <input type="number" id="activity4" name="activity4" placeholder="Total time for activity 4 (in minutes)" required><br>
-    <label for="activity5">Activity 5:</label>
-    <input type="number" id="activity5" name="activity5" placeholder="Total time for activity 5 (in minutes)" required><br>
-    <label for="activity6">Activity 6:</label>
-    <input type="number" id="activity6" name="activity6" placeholder="Total time for activity 6 (in minutes)" required><br>
-   
-    <button type="submit">Generate Timetable</button>
-</form>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Time Allocation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
 
-<!-- Placeholder for the timetable -->
-<div id="timetable"></div>
-
-<script>
-    document.getElementById("activityForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            color: rgb(51, 48, 44);
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #45adf2;
+        }
+        tr {
+            background-color: rgb(207, 236, 249);
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+          margin-bottom: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+           
+        }
         
-        // Get the values of activity times
-        var activityTimes = [];
-        for (var i = 1; i <= 6; i++) {
-            var activityInput = document.getElementById("activity" + i).value;
-            if (activityInput !== "") {
-                activityTimes.push(parseInt(activityInput));
+    </style>
+</head>
+<body>
+    <h1>Study Time Allocation</h1>
+    <form id="inputForm">
+        <label for="freetime">Free Time for Each Day (comma-separated):</label>
+        <input type="text" id="freetime" placeholder="e.g., 5,6,5,5,7,8,9" required><br><br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Credits</th>
+                    <th>Quiz Time</th>
+                    <th>Quiz Day</th>
+                    <th>Confidence (1-5)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="courseName1" required></td>
+                    <td><input type="number" id="courseCredits1" min="1" required></td>
+                    <td><input type="number" id="quiztimeforcourse1" min="0" required></td>
+                    <td><input type="number" id="quizdayforcourse1" min="0" max="6" required></td>
+                    <td><input type="number" id="courseConfidence1" min="1" max="5" required></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="courseName2" required></td>
+                    <td><input type="number" id="courseCredits2" min="1" required></td>
+                    <td><input type="number" id="quiztimeforcourse2" min="0" required></td>
+                    <td><input type="number" id="quizdayforcourse2" min="0" max="6" required></td>
+                    <td><input type="number" id="courseConfidence2" min="1" max="5" required></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="courseName3" ></td>
+                    <td><input type="number" id="courseCredits3" min="1" ></td>
+                    <td><input type="number" id="quiztimeforcourse3" min="0" ></td>
+                    <td><input type="number" id="quizdayforcourse3" min="0" max="6" ></td>
+                    <td><input type="number" id="courseConfidence3" min="1" max="5" ></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="courseName4" ></td>
+                    <td><input type="number" id="courseCredits4" min="1"></td>
+                    <td><input type="number" id="quiztimeforcourse4" min="0" ></td>
+                    <td><input type="number" id="quizdayforcourse4" min="0" max="6" ></td>
+                    <td><input type="number" id="courseConfidence4" min="1" max="5" ></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="courseName5" ></td>
+                    <td><input type="number" id="courseCredits5" min="1" ></td>
+                    <td><input type="number" id="quiztimeforcourse5" min="0" ></td>
+                    <td><input type="number" id="quizdayforcourse5" min="0" max="6" ></td>
+                    <td><input type="number" id="courseConfidence5" min="1" max="5" ></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="courseName6" ></td>
+                    <td><input type="number" id="courseCredits6" min="1" ></td>
+                    <td><input type="number" id="quiztimeforcourse6" min="0" ></td>
+                    <td><input type="number" id="quizdayforcourse6" min="0" max="6" ></td>
+                    <td><input type="number" id="courseConfidence6" min="1" max="5" ></td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <button type="submit">Calculate Study Time</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        document.getElementById("inputForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const freetimeInput = document.getElementById("freetime").value;
+            const freetime = freetimeInput.split(",").map(Number);
+
+            const courseList = [];
+            const quizList = [];
+
+            for (let i = 1; i <= 6; i++) {
+                const courseName = document.getElementById(`courseName${i}`).value;
+                const courseCredits = parseInt(document.getElementById(`courseCredits${i}`).value);
+                const courseConfidence = parseInt(document.getElementById(`courseConfidence${i}`).value);
+                courseList.push([courseName, courseCredits, courseConfidence]);
+                const quizTime = parseInt(document.getElementById(`quiztimeforcourse${i}`).value);
+                const quizDay = parseInt(document.getElementById(`quizdayforcourse${i}`).value);
+                quizList.push([courseName, quizTime, quizDay]);
             }
-        }
-        
-        // Sort the activity times in descending order
-        activityTimes.sort(function(a, b) {
-            return b - a;
+
+            const studyTime = studyTimePerDay(courseList, quizList, freetime);
+
+            displayStudyTime(studyTime);
         });
-        
-        // Generate timetable HTML
-        var timetableHTML = "<h3>Your Timetable:</h3><ul>";
-        var totalMinutesInADay = 24 * 60;
-        var totalUsedMinutes = 0;
-        for (var j = 0; j < activityTimes.length; j++) {
-            var activityDuration = Math.min(activityTimes[j], totalMinutesInADay - totalUsedMinutes);
-            var hours = Math.floor(activityDuration / 60);
-            var minutes = activityDuration % 60;
-            timetableHTML += "<li>Activity " + (j + 1) + ": " + hours + " hours " + minutes + " minutes</li>";
-            totalUsedMinutes += activityDuration;
+
+      
+        function displayStudyTime(studyTime) {
+            const outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "<h2>Study Time Allocation</h2>";
+
+            const table = document.createElement('table');
+
+            // Create table header row with day headings
+            const headerRow = table.insertRow();
+            headerRow.insertCell().innerHTML = "<strong>Course</strong>";
+            for (let i = 0; i < 7; i++) {
+                headerRow.insertCell().innerHTML = `<strong>Day ${i}</strong>`;
+            }
+
+            // Populate table with study time data
+            for (let i = 0; i < studyTime.length; i++) {
+                const course = studyTime[i];
+                const row = table.insertRow();
+                const courseCell = row.insertCell(0);
+                courseCell.innerHTML = `Course ${i + 1}`;
+                for (let j = 0; j < course.length; j++) {
+                    const dayCell = row.insertCell(j + 1);
+                    dayCell.innerHTML = `${course[j].toFixed(2)} hours`;
+                   
+                }
+            }
+
+            outputDiv.appendChild(table);
         }
-        timetableHTML += "</ul>";
-        
-        document.getElementById("timetable").innerHTML = timetableHTML;
-    } );
-</script>
+        function studyTimePerDay(courseList, quizList, freetime) {
+            const M = courseList.length;
+            const p = Array.from({ length: M }, () => Array(7).fill(0));
+            const pOrig = Array.from({ length: M }, () => Array(7).fill(0));
+            const qt = Array(M).fill(0);
+            const F = Array(M).fill(0);
+            const R = Array(M).fill(0);
+
+            for (let i = 0; i < M; i++) {
+                for (let j = 0; j < 7; j++) {
+                    pOrig[i][j] = (courseList[i][1] / courseList[i][2]) * freetime[j] / freetime.reduce((a, b) => a + b, 0);
+                    p[i][j] = pOrig[i][j];
+                }
+            }
+
+            for (let i = 0; i < M; i++) {
+                qt[i] = (4 / courseList[i][2]) * quizList[i][1] * courseList[i][1] / 100;
+            }
+
+            for (let i = 0; i < M; i++) {
+                R[i] = quizList[i][2] < 7 ? 7 - quizList[i][2] : 7;
+            }
+
+            for (let i = 0; i < M; i++) {
+                F[i] = freetime.slice(0, quizList[i][2]).reduce((a, b) => a + b, 0);
+            }
+
+            for (let i = 0; i < M; i++) {
+                if (quizList[i][2] !== 7) {
+                    for (let j = 0; j < quizList[i][2]; j++) {
+                        p[i][j] += freetime[j] * qt[i] / F[i];
+                    }
+                    for (let j = quizList[i][2]; j < 7; j++) {
+                        p[i][j] = pOrig[i][j] - qt[i] / R[i];
+                    }
+                }
+            }
+
+            for (let i = 0; i < M; i++) {
+                for (let j = 0; j < 7; j++) {
+                    p[i][j] = Math.max(p[i][j], 0);
+                }
+            }
+
+            return p;
+        }
+    </script>
+</body>
+</html>
