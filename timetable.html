@@ -4,73 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Time Allocation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-
-        }
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            color: rgb(51, 48, 44);
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #45adf2;
-        }
-        tr {
-            background-color: rgb(207, 236, 249);
-        }
-        input[type="text"],
-        input[type="number"] {
-            width: calc(100% - 20px);
-            padding: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-          margin-bottom: 5px;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-           
-        }
-        
-    </style>
+    <link rel="stylesheet" href="timetable.css">
+   
+    
 </head>
 <body>
-    <h1>Study Time Allocation</h1>
+
+    
+        <h1><span class="star">&#9733;</span>Study Time Allocation<span class="star">&#9733;</span></h1>
+ 
     <form id="inputForm">
-        <label for="freetime">Free Time for Each Day (comma-separated):</label>
+        <label for="freetime">Free Time for Day 0-6(comma-separated):</label>
         <input type="text" id="freetime" placeholder="e.g., 5,6,5,5,7,8,9" required><br><br>
+        <h6>/* Day 0 is the first day of the schedule</h6>
 
         <table>
             <thead>
                 <tr>
                     <th>Course Name</th>
-                    <th>Credits</th>
-                    <th>Quiz Time</th>
-                    <th>Quiz Day</th>
+                    <th>Course Credits</th>
+                    <th>Quiz Weightage(%)</th>
+                    <th>Quiz Day(0-6)</th>
                     <th>Confidence (1-5)</th>
                 </tr>
             </thead>
@@ -125,107 +79,110 @@
     </form>
 
     <div id="output"></div>
+<script>
+    
+document.getElementById("inputForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    <script>
-        document.getElementById("inputForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+    const freetimeInput = document.getElementById("freetime").value;
+    const freetime = freetimeInput.split(",").map(Number);
 
-            const freetimeInput = document.getElementById("freetime").value;
-            const freetime = freetimeInput.split(",").map(Number);
+    const courseList = [];
+    const quizList = [];
 
-            const courseList = [];
-            const quizList = [];
+    for (let i = 1; i <= 6; i++) {
+        const courseName = document.getElementById(`courseName${i}`).value;
+        const courseCredits = parseInt(document.getElementById(`courseCredits${i}`).value);
+        const courseConfidence = parseInt(document.getElementById(`courseConfidence${i}`).value);
+        courseList.push([courseName, courseCredits, courseConfidence]);
+        const quizTime = parseInt(document.getElementById(`quiztimeforcourse${i}`).value);
+        const quizDay = parseInt(document.getElementById(`quizdayforcourse${i}`).value);
+        quizList.push([courseName, quizTime, quizDay]);
+    }
 
-            for (let i = 1; i <= 6; i++) {
-                const courseName = document.getElementById(`courseName${i}`).value;
-                const courseCredits = parseInt(document.getElementById(`courseCredits${i}`).value);
-                const courseConfidence = parseInt(document.getElementById(`courseConfidence${i}`).value);
-                courseList.push([courseName, courseCredits, courseConfidence]);
-                const quizTime = parseInt(document.getElementById(`quiztimeforcourse${i}`).value);
-                const quizDay = parseInt(document.getElementById(`quizdayforcourse${i}`).value);
-                quizList.push([courseName, quizTime, quizDay]);
-            }
+    const studyTime = studyTimePerDay(courseList, quizList, freetime);
 
-            const studyTime = studyTimePerDay(courseList, quizList, freetime);
+    displayStudyTime(studyTime);
+});
 
-            displayStudyTime(studyTime);
-        });
 
-      
-        function displayStudyTime(studyTime) {
-            const outputDiv = document.getElementById("output");
-            outputDiv.innerHTML = "<h2>Study Time Allocation</h2>";
+function displayStudyTime(studyTime) {
+    const outputDiv = document.getElementById("output");
+    outputDiv.innerHTML = "<h2>Study Time Allocation</h2>";
 
-            const table = document.createElement('table');
+    const table = document.createElement('table');
 
-            // Create table header row with day headings
-            const headerRow = table.insertRow();
-            headerRow.insertCell().innerHTML = "<strong>Course</strong>";
-            for (let i = 0; i < 7; i++) {
-                headerRow.insertCell().innerHTML = `<strong>Day ${i}</strong>`;
-            }
+    // Create table header row with day headings
+    const headerRow = table.insertRow();
+    headerRow.insertCell().innerHTML = "<strong>Course</strong>";
+    for (let i = 0; i < 7; i++) {
+        headerRow.insertCell().innerHTML = `<strong>Day ${i}</strong>`;
+    }
 
-            // Populate table with study time data
-            for (let i = 0; i < studyTime.length; i++) {
-                const course = studyTime[i];
-                const row = table.insertRow();
-                const courseCell = row.insertCell(0);
-                courseCell.innerHTML = `Course ${i + 1}`;
-                for (let j = 0; j < course.length; j++) {
-                    const dayCell = row.insertCell(j + 1);
-                    dayCell.innerHTML = `${course[j].toFixed(2)} hours`;
-                   
-                }
-            }
-
-            outputDiv.appendChild(table);
+    // Populate table with study time data
+    for (let i = 0; i < studyTime.length; i++) {
+        const course = studyTime[i];
+        const row = table.insertRow();
+        const courseCell = row.insertCell(0);
+        courseCell.innerHTML = `Course ${i + 1}`;
+        for (let j = 0; j < course.length; j++) {
+            const dayCell = row.insertCell(j + 1);
+            dayCell.innerHTML = `${course[j].toFixed(2)} hours`;
+           
         }
-        function studyTimePerDay(courseList, quizList, freetime) {
-            const M = courseList.length;
-            const p = Array.from({ length: M }, () => Array(7).fill(0));
-            const pOrig = Array.from({ length: M }, () => Array(7).fill(0));
-            const qt = Array(M).fill(0);
-            const F = Array(M).fill(0);
-            const R = Array(M).fill(0);
+    }
 
-            for (let i = 0; i < M; i++) {
-                for (let j = 0; j < 7; j++) {
-                    pOrig[i][j] = (courseList[i][1] / courseList[i][2]) * freetime[j] / freetime.reduce((a, b) => a + b, 0);
-                    p[i][j] = pOrig[i][j];
-                }
-            }
+    outputDiv.appendChild(table);
+}
+function studyTimePerDay(courseList, quizList, freetime) {
+    const M = courseList.length;
+    const p = Array.from({ length: M }, () => Array(7).fill(0));
+    const pOrig = Array.from({ length: M }, () => Array(7).fill(0));
+    const qt = Array(M).fill(0);
+    const F = Array(M).fill(0);
+    const R = Array(M).fill(0);
 
-            for (let i = 0; i < M; i++) {
-                qt[i] = (4 / courseList[i][2]) * quizList[i][1] * courseList[i][1] / 100;
-            }
-
-            for (let i = 0; i < M; i++) {
-                R[i] = quizList[i][2] < 7 ? 7 - quizList[i][2] : 7;
-            }
-
-            for (let i = 0; i < M; i++) {
-                F[i] = freetime.slice(0, quizList[i][2]).reduce((a, b) => a + b, 0);
-            }
-
-            for (let i = 0; i < M; i++) {
-                if (quizList[i][2] !== 7) {
-                    for (let j = 0; j < quizList[i][2]; j++) {
-                        p[i][j] += freetime[j] * qt[i] / F[i];
-                    }
-                    for (let j = quizList[i][2]; j < 7; j++) {
-                        p[i][j] = pOrig[i][j] - qt[i] / R[i];
-                    }
-                }
-            }
-
-            for (let i = 0; i < M; i++) {
-                for (let j = 0; j < 7; j++) {
-                    p[i][j] = Math.max(p[i][j], 0);
-                }
-            }
-
-            return p;
+    for (let i = 0; i < M; i++) {
+        for (let j = 0; j < 7; j++) {
+            pOrig[i][j] = (courseList[i][1] / courseList[i][2]) * freetime[j] / freetime.reduce((a, b) => a + b, 0);
+            p[i][j] = pOrig[i][j];
         }
-    </script>
+    }
+
+    for (let i = 0; i < M; i++) {
+        qt[i] = (4 / courseList[i][2]) * quizList[i][1] * courseList[i][1] / 100;
+    }
+
+    for (let i = 0; i < M; i++) {
+        R[i] = quizList[i][2] < 7 ? 7 - quizList[i][2] : 7;
+    }
+
+    for (let i = 0; i < M; i++) {
+        F[i] = freetime.slice(0, quizList[i][2]).reduce((a, b) => a + b, 0);
+    }
+
+    for (let i = 0; i < M; i++) {
+        if (quizList[i][2] !== 7) {
+            for (let j = 0; j < quizList[i][2]; j++) {
+                p[i][j] += freetime[j] * qt[i] / F[i];
+            }
+            for (let j = quizList[i][2]; j < 7; j++) {
+                p[i][j] = pOrig[i][j] - qt[i] / R[i];
+            }
+        }
+    }
+
+    for (let i = 0; i < M; i++) {
+        for (let j = 0; j < 7; j++) {
+            p[i][j] = Math.max(p[i][j], 0);
+        }
+    }
+
+    return p;
+}
+
+</script>
+
+   
 </body>
 </html>

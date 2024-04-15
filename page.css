@@ -1,6 +1,15 @@
+
+
+
+
 body{
 background-color: whitesmoke;
 font-family: Arial, sans-serif;
+background-image: url('front.jpg'); 
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+height: 100%;
 }
 h1{
     font-size:7;
@@ -36,6 +45,10 @@ h4{
     display: inline-block;
     margin-left: 260px;
     margin-top: 60px;
+    background-image: url('box.jpeg'); 
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
   }
   .box2{
     height:150;
@@ -48,6 +61,10 @@ h4{
     display: inline-block;
     margin-left: 20px;
     margin-top: 60px;
+    background-image: url('box.jpeg'); 
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
   }
   .box3{
     height:150;
@@ -60,6 +77,10 @@ h4{
     display: inline-block;
     margin-left: 20px;
     margin-top: 60px;
+    background-image: url('box.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .box1 h {
     margin-top: 0;

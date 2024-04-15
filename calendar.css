@@ -2,6 +2,10 @@ body {
 	font-family: Arial, sans-serif;
 	background-color: white;
 	margin: 0;
+	background-image: url('cal.jpeg'); 
+	background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
 }
 
 .wrapper {
@@ -30,7 +34,7 @@ body {
 }
 
 .container-calendar #left h1 {
-	color: green;
+	
 	text-align: center;
 	background-color: #f2f2f2;
 	margin: 0;
@@ -51,7 +55,7 @@ body {
 }
 
 #event-section button {
-	background: green;
+	background: rgb(112, 163, 208);
 	color: white;
 	border: none;
 	padding: 5px 10px;
@@ -103,11 +107,16 @@ body {
 }
 
 #reminder-section h3 {
-	color: green;
+	color: rgb(0, 41, 128);
 	font-size: 18px;
 	margin: 0;
 }
-
+#reminder-section h4 {
+	color: rgb(238, 211, 41);
+	font-size: 10px;
+	margin-left: 5px;
+	margin-top: 2px;
+}
 #reminderList {
 	list-style: none;
 	padding: 0;
@@ -132,7 +141,7 @@ body {
 /* Buttons in the calendar */
 .button-container-calendar button {
 	cursor: pointer;
-	background: green;
+	background: rgb(2, 39, 54);
 	color: #fff;
 	border: 1px solid green;
 	border-radius: 4px;

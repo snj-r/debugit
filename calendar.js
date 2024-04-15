@@ -1,6 +1,6 @@
 let events = [];
 
-
+// letiables to store event input fields and reminder list
 let eventDateInput =
 	document.getElementById("eventDate");
 let eventTitleInput =
@@ -10,17 +10,17 @@ let eventDescriptionInput =
 let reminderList =
 	document.getElementById("reminderList");
 
-
+// Counter to generate unique event IDs
 let eventIdCounter = 1;
 
-
+// Function to add events
 function addEvent() {
 	let date = eventDateInput.value;
 	let title = eventTitleInput.value;
 	let description = eventDescriptionInput.value;
 
 	if (date && title) {
-		
+		// Create a unique event ID
 		let eventId = eventIdCounter++;
 
 		events.push(
@@ -38,15 +38,15 @@ function addEvent() {
 	}
 }
 
-
+// Function to delete an event by ID
 function deleteEvent(eventId) {
-	
+	// Find the index of the event with the given ID
 	let eventIndex =
 		events.findIndex((event) =>
 			event.id === eventId);
 
 	if (eventIndex !== -1) {
-		
+		// Remove the event from the events array
 		events.splice(eventIndex, 1);
 		showCalendar(currentMonth, currentYear);
 		displayReminders();
@@ -95,7 +95,7 @@ function generate_year_range(start, end) {
 	return years;
 }
 
-// Initialize date-related 
+// Initialize date-related letiables
 today = new Date();
 currentMonth = today.getMonth();
 currentYear = today.getFullYear();
